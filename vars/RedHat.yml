@@ -1,6 +1,9 @@
 ---
 distro_packages:
+  - '@C Development Tools and Libraries'
   - bzip2-devel
+  - dnf-plugins-core
+  - libffi
   - libffi-devel
   - libicu-devel
   - libpq-devel

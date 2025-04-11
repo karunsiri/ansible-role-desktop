@@ -1,0 +1,54 @@
+---
+- name: Ensure user fonts directory
+  ansible.builtin.file:
+    path: "{{ lookup('env', 'HOME') }}/.local/share/fonts"
+    state: directory
+    mode: '0755'
+  become: false
+
+- name: Check if 'FiraCode Nerd Font' exists
+  ansible.builtin.shell: |
+    ls {{ lookup('env', 'HOME') }}/.local/share/fonts/fira_nerd_{{ nerd_fonts_version }}
+  register: fc_font
+  ignore_errors: true
+  changed_when: fc_font.rc == 1
+
+- name: Download 'FiraCode Nerd Font' font if not exist
+  when: fc_font is failed
+  ansible.builtin.unarchive:
+    src: https://github.com/ryanoasis/nerd-fonts/releases/download/v{{ nerd_fonts_version }}/FiraCode.zip
+    dest: "{{ lookup('env', 'HOME') }}/.local/share/fonts/"
+    remote_src: true
+  become: false
+
+- name: Create mark telling FiraCode Nerd Font version is installed
+  ansible.builtin.file:
+    path: "{{ lookup('env', 'HOME') }}/.local/share/fonts/fira_nerd_{{ nerd_fonts_version }}"
+    state: touch
+  become: false
+
+- name: Check if 'VictorMono' exists
+  ansible.builtin.shell: |
+    ls {{ lookup('env', 'HOME') }}/.local/share/fonts/VictorMono*
+  register: victor_font
+  ignore_errors: true
+  changed_when: victor_font.rc == 1
+
+- name: Download 'VictorMono' font if not exist
+  when: victor_font is failed
+  ansible.builtin.unarchive:
+    src: https://rubjo.github.io/victor-mono/VictorMonoAll.zip
+    dest: /tmp
+    include:
+      - 'TTF/VictorMono-MediumOblique.ttf'
+      - 'TTF/VictorMono-BoldOblique.ttf'
+    remote_src: true
+  become: false
+
+- name: Ensure 'VictorMono' font is installed
+  when: victor_font is failed
+  ansible.builtin.shell: |
+    cp /tmp/TTF/* {{ lookup('env', 'HOME') }}/.local/share/fonts
+  become: true
+  become_user: "{{ username }}"
+  changed_when: victor_font.rc == 1

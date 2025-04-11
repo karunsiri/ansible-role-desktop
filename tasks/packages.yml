@@ -1,0 +1,10 @@
+---
+- name: Install common packages
+  ansible.builtin.package:
+    state: present
+    name: "{{ packages }}"
+
+- include_tasks: "packages_{{ ansible_os_family }}.yml"
+- include_tasks: "docker_{{ ansible_os_family }}.yml"
+- include_tasks: "sops_{{ ansible_os_family }}.yml"
+- include_tasks: ksops.yml

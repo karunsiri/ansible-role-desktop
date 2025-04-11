@@ -1,0 +1,10 @@
+---
+- name: Install Fedora specific packages
+  ansible.builtin.package:
+    state: present
+    name: "{{ distro_packages }}"
+
+- name: Ensure Extension Manager is installed
+  community.general.flatpak:
+    name: com.mattjakeman.ExtensionManager
+    state: present

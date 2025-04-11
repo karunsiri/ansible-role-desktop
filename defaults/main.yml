@@ -2,13 +2,19 @@
 update_packages: "false"
 packages:
   - bat
+  - ca-certificates
+  - curl
   - fzf
   - git
   - kitty
-  - nvim
+  - neovim
   - rcm
   - the_silver_searcher
   - tmux
   - vips
   - xclip
   - zsh
+sops_version: "3.10.1"
+ksops_version: "4.3.3"
+nerd_fonts_version: "3.3.0"
+sysctl_nofile_limit: 1048576

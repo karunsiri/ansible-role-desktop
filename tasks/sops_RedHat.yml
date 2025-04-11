@@ -1,0 +1,20 @@
+---
+- name: Check if sops is installed
+  ansible.builtin.command: command -v sops
+  register: sops_exe
+  ignore_errors: true
+  changed_when: false
+
+- name: Download sops RPM package
+  when: sops_exe is failed
+  ansible.builtin.get_url:
+    url: https://github.com/getsops/sops/releases/download/v{{ sops_version }}/sops-{{ sops_version }}-1.x86_64.rpm
+    dest: /tmp/sops.rpm
+    mode: '0755'
+
+- name: Ensure SOPS is installed
+  when: sops_exe is failed
+  ansible.builtin.yum:
+    name: /tmp/sops.rpm
+    state: present
+    disable_gpg_check: true

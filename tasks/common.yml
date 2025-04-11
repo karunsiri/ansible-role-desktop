@@ -1,0 +1,65 @@
+---
+- name: Detect user id
+  ansible.builtin.command: id -u
+  register: user_id
+  become: false
+  changed_when: user_id.rc == 1
+
+- name: Detect username
+  ansible.builtin.command: id -un
+  register: username
+  become: false
+  changed_when: username.rc == 1
+
+- name: Overwrite user_id
+  ansible.builtin.set_fact:
+    user_id: "{{ user_id.stdout }}"
+
+- name: Overwrite username
+  ansible.builtin.set_fact:
+    username: "{{ username.stdout }}"
+
+- name: Set soft `nofile` limits for '*'
+  community.general.pam_limits:
+    domain: "{{ item }}"
+    limit_type: soft
+    limit_item: nofile
+    value: "{{ sysctl_nofile_limit }}"
+  loop:
+    - '*'
+    - 'root'
+    - "{{ username }}"
+
+- name: Set hard `nofile` limits for '*'
+  community.general.pam_limits:
+    domain: "{{ item }}"
+    limit_type: hard
+    limit_item: nofile
+    value: "{{ sysctl_nofile_limit }}"
+  loop:
+    - '*'
+    - 'root'
+    - "{{ username }}"
+
+- name: Ensure pam_limits is enabled
+  ansible.builtin.lineinfile:
+    line: session required pam_limits.so
+    path: /etc/pam.d/login
+
+- name: Set Sysctl fs.* to unlimited
+  ansible.builtin.lineinfile:
+    line: "{{ item }}"
+    path: /etc/sysctl.conf
+    create: true
+  loop:
+    - "fs.file-max = {{ sysctl_nofile_limit }}"
+    - "fs.inotify.max_user_instances = 65535"
+  notify:
+    - Reload sysctl config
+
+- name: Ensure user .local/bin directory
+  ansible.builtin.file:
+    path: "{{ lookup('env', 'HOME') }}/.local/bin"
+    state: directory
+    mode: '0755'
+  become: false

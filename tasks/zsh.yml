@@ -1,0 +1,16 @@
+---
+- name: Detect ZSH path
+  ansible.builtin.command: which zsh
+  register: zsh_path
+  changed_when: zsh_path.rc == 1
+
+- name: Detect user full name
+  ansible.builtin.shell: cat /etc/passwd | grep -E '^{{ username }}' | cut -d':' -f 5
+  register: user_fullname
+  changed_when: user_fullname.rc == 1
+
+- name: Change shell to ZSH
+  ansible.builtin.lineinfile:
+    path: /etc/passwd
+    regexp: '^{{ username }}'
+    line: "{{ username }}:x:{{ user_id }}:{{ user_id }}:{{ user_fullname.stdout }}:/home/{{ username }}:{{ zsh_path.stdout }}"

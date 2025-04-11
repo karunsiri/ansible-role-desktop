@@ -1,0 +1,5 @@
+---
+distro_packages:
+  - libffi8
+  - libffi-dev
+  - openssl
