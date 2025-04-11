@@ -1,0 +1,14 @@
+---
+distro_packages:
+  - bzip2-devel
+  - libffi-devel
+  - libicu-devel
+  - libpq-devel
+  - libuuid-devel
+  - libyaml-devel
+  - ncurses-devel
+  - openssl-devel
+  - readline-devel
+  - sqlite-devel
+  - xz-devel
+  - zlib-devel
