@@ -14,5 +14,6 @@ distro_packages:
   - readline-devel
   - sqlite-devel
   - the_silver_searcher
+  - vips
   - xz-devel
   - zlib-devel

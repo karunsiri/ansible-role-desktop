@@ -10,7 +10,6 @@ packages:
   - neovim
   - rcm
   - tmux
-  - vips
   - xclip
   - zsh
 sops_version: "3.10.1"
