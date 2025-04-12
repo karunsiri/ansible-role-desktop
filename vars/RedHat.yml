@@ -11,6 +11,9 @@ distro_packages:
   - libyaml-devel
   - ncurses-devel
   - openssl-devel
+  - postgresql
+  - postgresql-contrib
+  - postgresql-server
   - readline-devel
   - sqlite-devel
   - the_silver_searcher

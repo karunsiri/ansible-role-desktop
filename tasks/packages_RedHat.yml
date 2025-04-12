@@ -16,3 +16,10 @@
   community.general.flatpak:
     name: com.mattjakeman.ExtensionManager
     state: present
+
+- name: Ensure postgresql db is initialized
+  ansible.builtin.command: /usr/bin/postgresql-setup --initdb
+  args:
+    creates: /var/lib/pgsql/data
+  become: true
+  become_user: postgres
