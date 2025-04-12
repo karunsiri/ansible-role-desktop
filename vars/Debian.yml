@@ -6,3 +6,4 @@ distro_packages:
   - libvips-tools
   - openssl
   - silversearcher-ag
+  - xz-utils

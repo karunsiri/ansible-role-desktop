@@ -8,13 +8,12 @@
 - name: Download sops RPM package
   when: sops_exe is failed
   ansible.builtin.get_url:
-    url: https://github.com/getsops/sops/releases/download/v{{ sops_version }}/sops-{{ sops_version }}-1.{{ platform_arch }}.rpm
-    dest: /tmp/sops.rpm
+    url: https://github.com/getsops/sops/releases/download/v{{ sops_version }}/sops_{{ sops_version }}_{{ platform_arch }}.deb
+    dest: /tmp/sops.deb
     mode: '0755'
 
 - name: Ensure SOPS is installed
   when: sops_exe is failed
-  ansible.builtin.yum:
-    name: /tmp/sops.rpm
+  ansible.builtin.apt:
+    deb: /tmp/sops.deb
     state: present
-    disable_gpg_check: true
