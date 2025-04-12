@@ -11,6 +11,12 @@
     flatpakrepo_url: https://dl.flathub.org/repo/flathub.flatpakrepo
 
 - include_tasks: "packages_{{ ansible_os_family }}.yml"
+
 - include_tasks: "docker_{{ ansible_os_family }}.yml"
+  when: install_docker | bool
+
 - include_tasks: "sops_{{ ansible_os_family }}.yml"
+  when: install_sops | bool
+
 - include_tasks: ksops.yml
+  when: install_sops | bool

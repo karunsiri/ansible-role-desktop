@@ -20,3 +20,11 @@ sysctl_nofile_limit: 1048576
 append_user_groups:
   - docker
 sudo_use_password: true
+
+install_docker: true
+install_sops: true
+
+# dotfiles sync using RCM
+install_dotfiles: false
+dotfiles_repository: https://github.com/karunsiri/dotfiles.git
+dotfiles_clone_location: ~/.dotfiles
