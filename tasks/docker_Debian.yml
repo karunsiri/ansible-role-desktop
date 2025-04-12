@@ -1,16 +1,15 @@
 ---
 - name: Add Docker apt key
-  ansible.builtin.apt_key:
+  ansible.builtin.get_url:
     url: https://download.docker.com/linux/ubuntu/gpg
-    keyring: /etc/apt/keyrings/docker.asc
-    state: present
+    dest: /etc/apt/trusted.gpg.d/docker.asc
+    mode: '0644'
+    force: true
 
 - name: Add docker-ce apt repository
-  ansible.builtin.shell: |
-    echo \
-      "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/ubuntu \
-      $(. /etc/os-release && echo "${UBUNTU_CODENAME:-$VERSION_CODENAME}") stable" | \
-      tee /etc/apt/sources.list.d/docker.list > /dev/null
+  ansible.builtin.apt_repository:
+    repo: deb [arch={{ platform_arch }}] https://download.docker.com/{{ ansible_system | lower }}/{{ ansible_distribution | lower }} {{ ansible_distribution_release }} stable
+    filename: docker
 
 - name: Update apt cache
   ansible.builtin.apt:

@@ -1,4 +1,12 @@
 ---
+- name: Detect platform architecture
+  ansible.builtin.command: dpkg --print-architecture
+  register: platform_arch
+
+- name: Overwrite platform_arch
+  ansible.builtin.set_fact:
+    platform_arch: "{{ platform_arch.stdout }}"
+
 - name: Install Debian specific packages
   ansible.builtin.package:
     state: present

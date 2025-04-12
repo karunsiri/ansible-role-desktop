@@ -1,4 +1,12 @@
 ---
+- name: Detect platform architecture
+  ansible.builtin.command: rpm --eval '%{_arch}'
+  register: platform_arch
+
+- name: Overwrite platform_arch
+  ansible.builtin.set_fact:
+    platform_arch: "{{ platform_arch.stdout }}"
+
 - name: Install Fedora specific packages
   ansible.builtin.package:
     state: present
