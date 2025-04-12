@@ -4,6 +4,7 @@ packages:
   - bat
   - ca-certificates
   - curl
+  - flatpak
   - fzf
   - git
   - kitty

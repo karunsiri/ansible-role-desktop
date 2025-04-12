@@ -4,6 +4,12 @@
     state: present
     name: "{{ packages }}"
 
+- name: Add the flathub flatpak repository remote to the user installation
+  community.general.flatpak_remote:
+    name: flathub
+    state: present
+    flatpakrepo_url: https://dl.flathub.org/repo/flathub.flatpakrepo
+
 - include_tasks: "packages_{{ ansible_os_family }}.yml"
 - include_tasks: "docker_{{ ansible_os_family }}.yml"
 - include_tasks: "sops_{{ ansible_os_family }}.yml"

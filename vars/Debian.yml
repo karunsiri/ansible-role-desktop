@@ -1,5 +1,6 @@
 ---
 distro_packages:
+  - gnome-software-plugin-flatpak
   - libffi-dev
   - libffi8
   - libvips-tools
