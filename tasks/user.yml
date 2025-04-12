@@ -1,0 +1,26 @@
+---
+- name: Append user to groups
+  ansible.builtin.user:
+    name: "{{ username }}"
+    groups: "{{ append_user_groups }}"
+    append: yes
+
+- name: Add configured user accounts to passwordless sudoers.
+  lineinfile:
+    dest: /etc/sudoers
+    regexp: '^{{ username }}'
+    line: '{{ username }} ALL=(ALL) NOPASSWD: ALL'
+    state: present
+    validate: 'visudo -cf %s'
+    mode: 0440
+  when: not sudo_use_password | bool
+
+- name: Add configured user accounts to passworded sudoers.
+  lineinfile:
+    dest: /etc/sudoers
+    regexp: '^{{ username }}'
+    line: '{{ username }} ALL=(ALL) ALL'
+    state: present
+    validate: 'visudo -cf %s'
+    mode: 0440
+  when: sudo_use_password | bool

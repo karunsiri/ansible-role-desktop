@@ -17,3 +17,6 @@ sops_version: "3.10.1"
 ksops_version: "4.3.3"
 nerd_fonts_version: "3.3.0"
 sysctl_nofile_limit: 1048576
+append_user_groups:
+  - docker
+sudo_use_password: true
