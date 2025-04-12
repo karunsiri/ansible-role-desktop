@@ -13,5 +13,6 @@ distro_packages:
   - openssl-devel
   - readline-devel
   - sqlite-devel
+  - the_silver_searcher
   - xz-devel
   - zlib-devel

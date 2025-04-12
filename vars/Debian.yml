@@ -1,5 +1,6 @@
 ---
 distro_packages:
-  - libffi8
   - libffi-dev
+  - libffi8
   - openssl
+  - silversearcher-ag

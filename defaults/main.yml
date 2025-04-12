@@ -9,7 +9,6 @@ packages:
   - kitty
   - neovim
   - rcm
-  - the_silver_searcher
   - tmux
   - vips
   - xclip
