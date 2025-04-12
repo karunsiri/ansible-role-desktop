@@ -1,6 +1,6 @@
 ---
 - name: Check if sops is installed
-  ansible.builtin.command: command -v sops
+  ansible.builtin.shell: command -v sops
   register: sops_exe
   ignore_errors: true
   changed_when: false

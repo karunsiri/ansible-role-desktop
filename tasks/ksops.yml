@@ -1,7 +1,7 @@
 ---
 - name: Ensure kustomize ksops directory
   ansible.builtin.file:
-    path: "{{ lookup('env', 'XDG_CONFIG_HOME') }}/kustomize/plugin/verumex.com/v1/ksops"
+    path: "{{ lookup('env', 'XDG_CONFIG_HOME') | default(xdg_config_home, true) }}/kustomize/plugin/verumex.com/v1/ksops"
     state: directory
     mode: '0755'
   become: false
