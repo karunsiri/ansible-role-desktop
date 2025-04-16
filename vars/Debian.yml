@@ -1,5 +1,6 @@
 ---
 distro_packages:
+  - build-essential
   - gnome-software-plugin-flatpak
   - libffi-dev
   - libffi8
